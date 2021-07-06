@@ -7,7 +7,7 @@
     <ul>
         {% if articles is not empty %}
             {% for article in articles %}
-                <li>{{article.titre}}</li>
+                <li> <a href="{{ path('singleArticle', {id: article.id})}}">{{article.titre}}</a></li>
             {% endfor %}
         {% endif %}
     </ul>

@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategorieController extends AbstractController
 {
     /**
-     * @Route(path="/categorie", name="categorie")
+     * @Route(path="/categorie", name="categories")
      * @return Response
      */
     public function index()
@@ -35,6 +35,17 @@ class CategorieController extends AbstractController
             "controller_name" => 'CategorieController',
             // "nomDelaVariable" => "valeurDeLaVariable",
             "categories" => $categories
+        ]);
+
+    }
+
+    /**
+     * @Route(path="/categorie/{id}", name="singleCategorie")
+     */
+    public function single (Categorie $categorie)
+    {
+        return $this->render("categorie/single.html.twig", [
+            "categorie" => $categorie
         ]);
     }
 }
