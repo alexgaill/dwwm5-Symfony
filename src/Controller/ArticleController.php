@@ -21,4 +21,20 @@ class ArticleController extends AbstractController
             'articles' => $articles,
         ]);
     }
+
+    /**
+     * @Route(path="/article/{id}", name="singleArticle")
+     *
+     * @return void
+     */
+    public function single($id)
+    {
+        // Afficher les informations d'un article
+        // Quel article est à charger? On le définit avec son id
+
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        return $this->render("article/single.html.twig", [
+            "article" => $article
+        ]);
+    }
 }
