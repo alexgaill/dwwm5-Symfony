@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List d'articles{% endblock %}
+
+{% block body %}
+
+    <ul>
+        {% if articles is not empty %}
+            {% for article in articles %}
+                <li>{{article.titre}}</li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endblock %}

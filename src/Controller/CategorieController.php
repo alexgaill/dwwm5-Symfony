@@ -32,7 +32,7 @@ class CategorieController extends AbstractController
         $categories = $this->getDoctrine()->getRepository(Categorie::class)->findAll();
 
         return $this->render('categorie/index.html.twig', [
-            // "controller_name" => 'CategorieController',
+            "controller_name" => 'CategorieController',
             // "nomDelaVariable" => "valeurDeLaVariable",
             "categories" => $categories
         ]);
