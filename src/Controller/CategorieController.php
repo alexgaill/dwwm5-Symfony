@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Categorie;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategorieController extends AbstractController
 {
@@ -40,6 +43,46 @@ class CategorieController extends AbstractController
     }
 
     /**
+     * @Route(path="/categorie/save", name="saveCategorie")
+     */
+    public function create(Request $request)
+    {
+        // dump($request);
+        $categorie = new Categorie;
+        // $categorie->setName("Categorie de controller3");
+        $form = $this->createFormBuilder($categorie)
+                    ->add('name', TextType::class, [
+                        'label' => "Nom de la catégorie",
+                        'attr' => [
+                            'placeholder' => "catégorie n°X"
+                        ]
+                    ])
+                    ->add("Enregistrer", SubmitType::class)
+                    ->getForm();
+        
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $form->getData();
+            // dump($categorie);
+            
+            $manager = $this->getDoctrine()->getManager();
+            
+            $manager->persist($categorie);
+            $manager->flush();
+            // return $this->redirectToRoute("categories");
+            return $this->redirectToRoute("singleCategorie", [
+                'id' => $categorie->getId()
+            ]);
+        }
+        
+        return $this->render("categorie/save.html.twig", [
+            'form' => $form->createView()
+        ]);
+    }
+    // Toujours mettre save avant single si le path se ressemble
+    // "/categorie/save" peut être compris comme /categorie/id=save
+
+    /**
      * @Route(path="/categorie/{id}", name="singleCategorie")
      */
     public function single (Categorie $categorie)
@@ -48,4 +91,6 @@ class CategorieController extends AbstractController
             "categorie" => $categorie
         ]);
     }
+
+    
 }
