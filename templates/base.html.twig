@@ -14,6 +14,20 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header>
+        <h1>Bienvenue!</h1>
+            <nav>
+                <a href="#">Accueil</a>
+                <a href="#">Hello</a>
+                <a href="#">Bye</a>
+            </nav>
+        </header>
+        <main>
+            {% block body %}{% endblock %}
+            {# Ceci est un commentaire #}
+        </main>
+        <footer>
+            <p>Site réalisé en module de Symfony</p>
+        </footer>
     </body>
 </html>
