@@ -3,6 +3,7 @@ namespace App\Entity;
 
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategorieRepository::class)
@@ -20,7 +21,12 @@ class Categorie {
 
     /**
      * @ORM\Column(type="string", length=65, nullable=false)
-     *
+     * @Assert\Length(
+     *      min=8,
+     *      max=65,
+     *      minMessage="Le titre de la catégorie doit avoir au minimum {{ limit }} caractères",
+     *      maxMessage="Le titre de la catégorie doit avoir au maximum {{ limit }} caractères",
+     * )
      * @var [type]
      */
     private $name;
