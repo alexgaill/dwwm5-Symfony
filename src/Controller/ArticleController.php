@@ -47,10 +47,13 @@ class ArticleController extends AbstractController
             // On stocke notre article en mémoire tampon pour pouvoir l'enregistrer en BDD par la suite
             $manager->persist($article);
             // On stocke l'article dans la BDD, on vide la mémoire et on récupère toutes les infos de l'article
-            $manager->flush();
+            // $manager->flush();
+
+            $this->addFlash('success', "L'enregistrement a réussi!");
 
             return $this->redirectToRoute("singleArticle", [
-                'id' => $article->getId()
+                // 'id' => $article->getId()
+                'id' => 3
             ]);
 
         }

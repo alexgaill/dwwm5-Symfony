@@ -27,7 +27,7 @@ class Categorie {
      *      minMessage="Le titre de la catégorie doit avoir au minimum {{ limit }} caractères",
      *      maxMessage="Le titre de la catégorie doit avoir au maximum {{ limit }} caractères",
      * )
-     * @var [type]
+     * @var string
      */
     private $name;
 

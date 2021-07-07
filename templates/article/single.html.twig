@@ -1,6 +1,13 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{type}} my-2" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endfor %}
     <h2>{{article.titre}}</h2>
     <p>{{article.contenu}}</p>
     <small>Le {{article.createdAt | date("d m Y h:i:s")}}</small>
