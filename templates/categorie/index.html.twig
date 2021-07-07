@@ -3,16 +3,12 @@
 {% block title %}Hello CategorieController!{% endblock %}
 
 {% block body %}
-
-
-<div class="example-wrapper">
-        {# {{ dump(categories) }} #}
-        {% if categories is not empty %}
-        <ul>
-            {% for categorie in categories %}
-                <li><a href="{{ path('singleCategorie', {id: categorie.id}) }}"> {{ categorie.name }}</a></li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-</div>
+    {# {{ dump(categories) }} #}
+    {% if categories is not empty %}
+    <ul>
+        {% for categorie in categories %}
+            <li><a href="{{ path('singleCategorie', {id: categorie.id}) }}"> {{ categorie.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 {% endblock %}

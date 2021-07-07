@@ -15,7 +15,7 @@ class TestController extends AbstractController {
     // }
 
     /**
-     * @Route(path="/hello", name="hello")
+     * @Route(path="/", name="hello")
      */
     public function hello ()
     {
@@ -32,6 +32,15 @@ class TestController extends AbstractController {
     {
         $bye = "Bye bye!";
         return new Response($bye);
+    }
+
+    public function addition ($nb1, $nb2)
+    {
+        if (is_int($nb1) && is_int($nb2)) {
+            return $nb1 + $nb2;
+        } else {
+            return $nb1 . $nb2;
+        }
     }
 }
 

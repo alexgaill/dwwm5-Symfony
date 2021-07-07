@@ -64,7 +64,7 @@ class CategorieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $form->getData();
             // dump($categorie);
-            
+        
             $manager = $this->getDoctrine()->getManager();
             
             $manager->persist($categorie);
@@ -74,7 +74,7 @@ class CategorieController extends AbstractController
                 'id' => $categorie->getId()
             ]);
         }
-        
+
         return $this->render("categorie/save.html.twig", [
             'form' => $form->createView()
         ]);

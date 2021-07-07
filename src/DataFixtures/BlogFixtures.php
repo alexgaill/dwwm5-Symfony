@@ -25,7 +25,6 @@ class BlogFixtures extends Fixture
                     ->setCreatedAt(new \DateTime());
             $manager->persist($article);
         }
-
         $manager->flush();
     }
 }
