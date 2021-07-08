@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h1 class="mb-3"> Mise à jour de l'article n° {{ article.id}}</h1>
+
+    <div class="col-6 mx-auto">
+        {% include "article/_form.html.twig" %}
+    </div>
+{% endblock %}

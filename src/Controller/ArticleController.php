@@ -83,4 +83,44 @@ class ArticleController extends AbstractController
             "article" => $article
         ]);
     }
+
+    /**
+     * @Route(path="/article/{id}/update", name="updateArticle")
+     */
+    public function update(Article $article, Request $request)
+    {
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article = $form->getData();
+            $manager = $this->getDoctrine()->getManager();
+
+            $manager->persist($article);
+            $manager->flush();
+
+            return $this->redirectToRoute("singleArticle", [
+                'id' => $article->getId()
+            ]);
+        }
+
+        return $this->render("article/update.html.twig", [
+            'form' => $form->createView(),
+            'article' => $article
+        ]);
+    }
+
+    /**
+     * @Route(path="/article/{id}/delete", name="deleteArticle")
+     */
+    public function delete (Article $article)
+    {
+        if ($article) {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->remove($article);
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute("articles");
+    }
 }

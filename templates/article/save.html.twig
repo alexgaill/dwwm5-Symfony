@@ -1,30 +1,4 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {{form_start(form, {'attr':{'class':'col-6 mx-auto mt-5'}})}}
-        <div class="mb-3">
-            {{form_label(form.titre, "" ,{'attr': {'class':'form-label'}} ) }}
-            {{form_widget(form.titre, {'attr':{'class':'form-control'}} ) }}
-            {{form_help(form.titre , {'attr':{'class':'form-text'}} ) }}
-            <div class="form-text text-danger">
-                {{ form_errors(form.titre) }}
-            </div>
-        </div>
-        <div class="mb-3">
-            {{form_label(form.contenu, "" ,{'attr': {'class':'form-label'}} ) }}
-            {{form_widget(form.contenu, {'attr':{'class':'form-control'}} ) }}
-            {{form_help(form.contenu , {'attr':{'class':'form-text'}} ) }}
-            <div class="form-text text-danger">
-                {{ form_errors(form.contenu) }}
-            </div>
-        </div>
-        <div class="mb-3">
-            {{form_label(form.categorie, "" ,{'attr': {'class':'form-label'}} ) }}
-            {{form_widget(form.categorie, {'attr':{'class':'custom-select'}} ) }}
-            {{form_help(form.categorie , {'attr':{'class':'form-text'}} ) }}
-            <div class="form-text text-danger">
-                {{ form_errors(form.categorie) }}
-            </div>
-        </div>
-        {{form_row(form.Enregistrer, {'attr':{'class':'btn btn-primary'}} ) }}
-    {{form_end(form)}}
+    {% include "article/_form.html.twig" %}
 {% endblock %}
