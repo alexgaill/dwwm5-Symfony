@@ -8,7 +8,21 @@
             </div>
         {% endfor %}
     {% endfor %}
+
+        {# {{ dump(article) }} #}
+
     <h2>{{article.titre}}</h2>
     <p>{{article.contenu}}</p>
+    <h4>
+        Article appartenant à la catégorie 
+        <a href="{{ 
+            path(
+                'singleCategorie', 
+                {id:article.categorie.id}
+            ) 
+        }}">
+            {{ article.categorie.name }}
+        </a>
+    </h4>
     <small>Le {{article.createdAt | date("d m Y h:i:s")}}</small>
 {% endblock %}

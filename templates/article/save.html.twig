@@ -17,6 +17,14 @@
                 {{ form_errors(form.contenu) }}
             </div>
         </div>
+        <div class="mb-3">
+            {{form_label(form.categorie, "" ,{'attr': {'class':'form-label'}} ) }}
+            {{form_widget(form.categorie, {'attr':{'class':'custom-select'}} ) }}
+            {{form_help(form.categorie , {'attr':{'class':'form-text'}} ) }}
+            <div class="form-text text-danger">
+                {{ form_errors(form.categorie) }}
+            </div>
+        </div>
         {{form_row(form.Enregistrer, {'attr':{'class':'btn btn-primary'}} ) }}
     {{form_end(form)}}
 {% endblock %}

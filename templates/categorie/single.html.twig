@@ -1,6 +1,17 @@
+{% set articles = categorie.articles %}
+
 {% extends "base.html.twig" %}
 
 {% block body %}
     <h2>{{categorie.name}}</h2>
+    {% if articles is not empty %}
+        <div class="mx-3">
+            <ul>
+                {% for article in articles %}
+                    <li><a href="{{ path('singleArticle', {id:article.id}) }}">{{article.titre}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <p><a href="{{ path('categories')}}">Retour à la liste</a></p>
 {% endblock %}
