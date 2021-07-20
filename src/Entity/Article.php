@@ -63,6 +63,12 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length="40", nullable=true)
+     * @Assert\File(mimeTypes={"image/png", "image/jpeg"})
+     */
+    private $image;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -147,6 +153,24 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set the value of image
+     */
+    public function setImage($image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

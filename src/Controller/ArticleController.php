@@ -43,6 +43,17 @@ class ArticleController extends AbstractController
                 $article = $form->getData();
                 // On donne la date à notre article qui est l'information manquante dans le formulaire
                 $article->setCreatedAt(new \DateTime);
+
+                $image = $article->getImage();
+                dump($image);
+
+                $imageName = md5(uniqid()).'.'.$image->guessExtension();
+                $image->move(
+                    $this->getParameter('upload_files'),
+                    $imageName
+                );
+                $article->setImage($imageName);
+
                 // On appelle notre manager
                 $manager = $this->getDoctrine()->getManager();
                 // On stocke notre article en mémoire tampon pour pouvoir l'enregistrer en BDD par la suite
@@ -52,9 +63,9 @@ class ArticleController extends AbstractController
                 
                 $this->addFlash('success', "L'enregistrement a réussi!");
 
-                return $this->redirectToRoute("singleArticle", [
-                    'id' => $article->getId()
-                ]);
+                // return $this->redirectToRoute("singleArticle", [
+                //     'id' => $article->getId()
+                // ]);
 
             } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());

@@ -12,7 +12,9 @@
         {# {{ dump(article) }} #}
 
     <h2>{{article.titre}}</h2>
+    <img src="{{ asset("img/articles/" ~ article.image)}}" alt="">
     <p>{{article.contenu}}</p>
+    
     <h4>
         Article appartenant à la catégorie 
         <a href="{{ 

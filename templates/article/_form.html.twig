@@ -23,5 +23,13 @@
             {{ form_errors(form.categorie) }}
         </div>
     </div>
+     <div class="mb-3">
+        {{form_label(form.image, "" ,{'attr': {'class':'form-label'}} ) }}
+        {{form_widget(form.image, {'attr':{'class':'custom-select'}} ) }}
+        {{form_help(form.image , {'attr':{'class':'form-text'}} ) }}
+        <div class="form-text text-danger">
+            {{ form_errors(form.image) }}
+        </div>
+    </div>
     {{form_row(form.Enregistrer, {'attr':{'class':'btn btn-primary'}} ) }}
 {{form_end(form)}}
