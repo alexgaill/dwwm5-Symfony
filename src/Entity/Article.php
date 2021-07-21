@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @UniqueEntity("titre")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Article
 {
@@ -108,9 +109,12 @@ class Article
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime();
 
         return $this;
     }
@@ -173,5 +177,16 @@ class Article
         $this->image = $image;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PostRemove
+     */
+    public function deleteImage()
+    {
+        if (file_exists(__DIR__ . "/../../public/img/articles/" . $this->image)) {
+            unlink(__DIR__ . "/../../public/img/articles/" . $this->image);
+        }
+        return true;
     }
 }

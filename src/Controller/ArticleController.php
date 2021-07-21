@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ArticleController extends AbstractController
 {
@@ -42,16 +43,21 @@ class ArticleController extends AbstractController
                 // Les données récupérées par le formulaire sont transférées à notre article
                 $article = $form->getData();
                 // On donne la date à notre article qui est l'information manquante dans le formulaire
-                $article->setCreatedAt(new \DateTime);
+                // $article->setCreatedAt(new \DateTime);
 
+                // Pour traiter l'image, on doit la récupérer
                 $image = $article->getImage();
-                dump($image);
-
+                // On créé un nouveau pour l'image afin d'éviter les conflits.
+                // On utilise la méthode guessExtension() de HttpFoundation\File pour connaitre l'extension du fichier (.jpeg, .png, .pdf, ...)
                 $imageName = md5(uniqid()).'.'.$image->guessExtension();
+                // La méthode move est une méthode de HttpFoundation qui permet de déplacer l'image dans un dossier
+                // Elle prend 2 paramètres: Le premier est le chemin vers le dossier de stockage, le deuxième est le nouveau nom du fichier qui sera stocké
+                // Pour définir le chemin, on utilise un paramètre de configuration que l'on définit dans config/services.yaml
                 $image->move(
                     $this->getParameter('upload_files'),
                     $imageName
                 );
+                // Une fois le fichier déplacé, on enregistre le nouveau nom de celui-ci dans la base de données.
                 $article->setImage($imageName);
 
                 // On appelle notre manager
@@ -61,16 +67,16 @@ class ArticleController extends AbstractController
                 // On stocke l'article dans la BDD, on vide la mémoire et on récupère toutes les infos de l'article
                 $manager->flush();
                 
-                $this->addFlash('success', "L'enregistrement a réussi!");
+                // $this->addFlash('success', "L'enregistrement a réussi!");
 
-                // return $this->redirectToRoute("singleArticle", [
-                //     'id' => $article->getId()
-                // ]);
+                return $this->redirectToRoute("singleArticle", [
+                    'id' => $article->getId()
+                ]);
 
             } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
 
-                return $this->redirectToRoute("article");
+                return $this->redirectToRoute("articles");
             }
         }
 
@@ -100,11 +106,33 @@ class ArticleController extends AbstractController
      */
     public function update(Article $article, Request $request)
     {
+        if ($article->getImage() !== null) {
+            $article->setImage( new File($this->getParameter('upload_files').'/'.$article->getImage()));
+        }
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $article = $form->getData();
+
+            if ($article->getImage() !== null) {
+                // Pour traiter l'image, on doit la récupérer
+                $image = $article->getImage();
+                // On créé un nouveau pour l'image afin d'éviter les conflits.
+                // On utilise la méthode guessExtension() de HttpFoundation\File pour connaitre l'extension du fichier (.jpeg, .png, .pdf, ...)
+                $imageName = md5(uniqid()).'.'.$image->guessExtension();
+                // La méthode move est une méthode de HttpFoundation qui permet de déplacer l'image dans un dossier
+                // Elle prend 2 paramètres: Le premier est le chemin vers le dossier de stockage, le deuxième est le nouveau nom du fichier qui sera stocké
+                // Pour définir le chemin, on utilise un paramètre de configuration que l'on définit dans config/services.yaml
+                $image->move(
+                    $this->getParameter('upload_files'),
+                    $imageName
+                );
+                // Une fois le fichier déplacé, on enregistre le nouveau nom de celui-ci dans la base de données.
+                $article->setImage($imageName);
+            }
+
             $manager = $this->getDoctrine()->getManager();
 
             $manager->persist($article);

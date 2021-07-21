@@ -25,7 +25,7 @@
     </div>
      <div class="mb-3">
         {{form_label(form.image, "" ,{'attr': {'class':'form-label'}} ) }}
-        {{form_widget(form.image, {'attr':{'class':'custom-select'}} ) }}
+        {{form_widget(form.image, {'attr':{'class':'custom-select', "required": "false"}} ) }}
         {{form_help(form.image , {'attr':{'class':'form-text'}} ) }}
         <div class="form-text text-danger">
             {{ form_errors(form.image) }}
