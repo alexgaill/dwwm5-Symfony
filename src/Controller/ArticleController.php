@@ -9,7 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+/**
+ * @IsGranted("ROLE_USER")
+ */
 class ArticleController extends AbstractController
 {
     /**
@@ -106,6 +110,8 @@ class ArticleController extends AbstractController
      */
     public function update(Article $article, Request $request)
     {
+        $this->denyAccessUnlessGranted("ROLE_ADMIN");
+        
         if ($article->getImage() !== null) {
             $article->setImage( new File($this->getParameter('upload_files').'/'.$article->getImage()));
         }
@@ -150,7 +156,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route(path="/article/{id}/delete", name="deleteArticle")
+     * @Route(path="/admin/article/{id}/delete", name="deleteArticle")
      */
     public function delete (Article $article)
     {
