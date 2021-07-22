@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -21,9 +22,12 @@ class ArticleController extends AbstractController
      *
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
+        $session = $request->getSession();
+        $session->get("categories");
+        dump($session->get("categories"));
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
         ]);
@@ -115,7 +119,6 @@ class ArticleController extends AbstractController
         if ($article->getImage() !== null) {
             $article->setImage( new File($this->getParameter('upload_files').'/'.$article->getImage()));
         }
-
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 

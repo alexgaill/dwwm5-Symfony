@@ -9,9 +9,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CategorieController extends AbstractController
 {
+    private $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     /**
      * @Route(path="/categorie", name="categories")
      * @return Response
@@ -33,6 +41,9 @@ class CategorieController extends AbstractController
         // Cette méthode prend un paramètre qui est l'entité dont on veut récupérer les informations.
         // On appelle ensuite la méthode dont on a besoin et qui est sur notre repository.
         $categories = $this->getDoctrine()->getRepository(Categorie::class)->findAll();
+
+        $session = $this->requestStack->getSession();
+        $session->set("categories", $categories);
 
         return $this->render('categorie/index.html.twig', [
             "controller_name" => 'CategorieController',
